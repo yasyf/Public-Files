@@ -4,7 +4,7 @@ if(isset($file))
 {	
 $file = rawurldecode($file);
 $ext = pathinfo($file, PATHINFO_EXTENSION);
-$codeexts = array("cpp","css","diff","dtd","javascript","mysql","perl","php","python","ruby","sql","xml");
+$codeexts = array("cpp","css","diff","dtd","javascript","mysql","perl","php","python","ruby","sql","xml","java");
 $archiveexts = array("zip","tar","gz","7z","rar","sit","sitx","tgz","bz2","tbz");
 $finfo = finfo_open(FILEINFO_MIME);
 $type = finfo_file($finfo, $file);
@@ -25,6 +25,11 @@ if(isset($display))
 }
 else {
 	$file = "Yasyf Mohamedali's Public Files";
+		header("Expires: Mon, 26 Jul 1990 05:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
 }
 ?>
 
@@ -40,10 +45,11 @@ else {
 
     <meta content="CloudApp" name="author">
 
-    <link href="/favicon.ico" rel="shortcut icon">
+    <link href="favicon.ico" rel="shortcut icon">
 
     <!-- include_stylesheets :viso -->
     <link href="/static/stylesheets/reset.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/static/stylesheets/highlight.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/static/stylesheets/monsoon.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/static/stylesheets/image.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/static/stylesheets/other.css" media="screen" rel="stylesheet" type="text/css" />
@@ -71,7 +77,7 @@ if($file == "Yasyf Mohamedali's Public Files")
 {
 	$allfiles = scandir(dirname(__FILE__));
 	$list = "";
-	$sysfiles = array("-i",".","..",".gitignore",".htaccess","cloudapp.php","static",".git");
+	$sysfiles = array("-i",".","..",".gitignore",".htaccess","cloudapp.php","static",".git","favicon.ico");
 foreach ($allfiles as $key => $value) {
 	if(array_search($value,$sysfiles) === false)
 	$list .= "<span><strong><a href='$value' target='_blank'>$value</a></strong></span><br />";
@@ -102,13 +108,14 @@ else if(getimagesize($file))
  <section id="content">
   <img alt="<?php echo $file; ?>" src="<?php echo "?file=$file&display=true"; ?>">
 </section>
-<?	
+<?php	
 }
 else if (substr($type, 0, 4) == 'text') {
 	$content = file_get_contents($file);
 	if(array_search($ext,$codeexts)){
 		require_once 'Text/Highlighter.php';
-		$highlighter =& Text_Highlighter::factory($ext);
+		$highlighter =& Text_Highlighter::factory("$ext");
+		$highlighter->setRenderer($renderer);
 		$content = $highlighter->highlight($content); 
 		
 		?>
