@@ -1,19 +1,31 @@
 <?php
 extract($_GET, EXTR_SKIP);
+if(isset($file))
+{	
 $file = rawurldecode($file);
 $ext = pathinfo($file, PATHINFO_EXTENSION);
 $codeexts = array("cpp","css","diff","dtd","javascript","mysql","perl","php","python","ruby","sql","xml");
 $archiveexts = array("zip","tar","gz","7z","rar","sit","sitx","tgz","bz2","tbz");
 $finfo = finfo_open(FILEINFO_MIME);
 $type = finfo_file($finfo, $file);
-if($display)
+if(isset($display))
 {
-	
+	if($display){
+		
 	header("Content-Type: $type");
 	header("Content-Disposition: attachment; filename='$file'");
-	readfile("$file");
-	exit(0);
+	header('Content-Length: ' . filesize($file));
+	ob_clean();
+	flush();
+	readfile($file);
+	exit;
 	}
+	}
+	
+}
+else {
+	$file = "Yasyf Mohamedali's Public Files";
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,31 +67,22 @@ if($display)
   
 
 <?php
-if(!$file)
+if($file == "Yasyf Mohamedali's Public Files")
 {
+	$allfiles = scandir(dirname(__FILE__));
+	$list = "";
+	$sysfiles = array("-i",".","..",".gitignore",".htaccess","cloudapp.php","static",".git");
+foreach ($allfiles as $key => $value) {
+	if(array_search($value,$sysfiles) === false)
+	$list .= "<span><strong><a href='?file=$value' target='_blank'>$value</a></strong></span><br />";
+}
 	?>
 	<body id="other">
 	<div class="wrapper">
 	  <section id="content">
-	<?php
-	if(array_search($ext,$archiveexts)){
-		?>
-		<figure class="archive"></figure>
-		<?php
-	}
-	else {
-		?>
-		    <figure class="unknown"></figure>
-		<?php
-	}
+	     <h2>Yasyf Mohamedali's Public Files</h2>
 
-	     <h2><?php echo $file; ?></h2>
-
-	    <p>
-	      <a href="<?php echo "?file=$file&display=true"; ?>">View</a>
-
-	      <small>or <strong>opt</strong>/<strong>alt click</strong> to download</small>
-	    </p>
+	     <?php echo $list; ?>
 	  </section>
 	 <footer id="footer">
 	      <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
@@ -87,7 +90,7 @@ if(!$file)
 	</div>
 	<?php
 }
-if(getimagesize($file))
+else if(getimagesize($file))
 {
 ?>
  <body id="image">
@@ -151,7 +154,7 @@ else {
 	    <figure class="unknown"></figure>
 	<?php
 }
-
+?>
      <h2><?php echo $file; ?></h2>
 
     <p>
