@@ -74,7 +74,7 @@ if($file == "Yasyf Mohamedali's Public Files")
 	$sysfiles = array("-i",".","..",".gitignore",".htaccess","cloudapp.php","static",".git");
 foreach ($allfiles as $key => $value) {
 	if(array_search($value,$sysfiles) === false)
-	$list .= "<span><strong><a href='?file=$value' target='_blank'>$value</a></strong></span><br />";
+	$list .= "<span><strong><a href='$value' target='_blank'>$value</a></strong></span><br />";
 }
 	?>
 	<body id="other">
