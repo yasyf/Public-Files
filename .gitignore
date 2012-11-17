@@ -1,0 +1,6 @@
+*
+
+!.gitignore
+!cloudapp.php
+!.htaccess
+!static/
