@@ -7,7 +7,7 @@ $file = rawurldecode($file);
 $ext = pathinfo($file, PATHINFO_EXTENSION);
 $codeexts = array("cpp","css","diff","dtd","javascript","mysql","perl","php","python","ruby","sql","xml","java");
 $archiveexts = array("zip","tar","gz","7z","rar","sit","sitx","tgz","bz2","tbz");
-$docexts = array("pdf","ppt","pptx","xls","xlsx","pages");
+$docexts = array("pdf","ppt","pptx","xls","xlsx","pages","docx");
 $movexts = array("mp4","m4v","f4v","webm","flv","ogv");
 $audexts = array("aac","m4a","f4a","ogg","oga","mp3");
 $finfo = finfo_open(FILEINFO_MIME);
@@ -109,6 +109,7 @@ foreach ($allfiles as $key => $value) {
 	      <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 	    </footer>
 	</div>
+	<center><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>
 	<?php
 }
 else if(getimagesize($file))
@@ -122,6 +123,7 @@ else if(getimagesize($file))
 </header>
  <section id="content">
   <img alt="<?php echo $file; ?>" src="<?php echo "direct/$file"; ?>">
+<br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
 </section>
 <?php	
 }
@@ -135,7 +137,8 @@ else if (array_search($ext,$docexts) !== false) {
 		</header>
 		 <section id="content">
 		<center>
-		  <iframe src="http://docs.google.com/viewer?url=<?php echo urlencode("http://files.yasyf.com/direct/$file"); ?>&embedded=true" width="85%" height="800px" style="border: none;"></iframe>
+		  <iframe src="http://docs.google.com/viewer?url=<?php echo rawurlencode("http://files.yasyf.com/direct/$file"); ?>&embedded=true" width="85%" height="800px" style="border: none;"></iframe>
+		<br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
 		</center>
 		</section>
   <?php
@@ -164,6 +167,7 @@ else if (array_search($ext,$movexts) !== false) {
 			    </footer>
 			</div>
 			</video></div> 
+			<br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
 			</center>
 			</section>
 			 	
@@ -193,6 +197,7 @@ else if (array_search($ext,$audexts) !== false) {
 							    </footer>
 							</div>
 				</audio> 
+				<br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
 				</center>
 				</section>
 
@@ -216,7 +221,7 @@ else if (substr($type, 0, 4) == 'text') {
 					</header>
 					<section class="monsoon" id="content">
 					<div class="highlight"><pre><code><?php echo $content; ?></code></pre></div>
-					</section>
+<center><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>					</section>
  		<?php
 	}
 	else {
@@ -229,7 +234,7 @@ else if (substr($type, 0, 4) == 'text') {
 			</header>
 			<section class="monsoon" id="content">
 			<pre><code><?php echo $content; ?></code></pre>
-			</section>
+<center><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>			</section>
  			
  			<?php
 	}
@@ -263,6 +268,7 @@ else {
       <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
     </footer>
 </div>
+<center><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>
 <?php	
 }
 	?>
