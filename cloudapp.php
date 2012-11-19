@@ -1,7 +1,8 @@
 <?php
 extract($_GET, EXTR_SKIP);
 if(isset($file))
-{	
+{
+$fileraw = $file;
 $file = rawurldecode($file);
 $ext = pathinfo($file, PATHINFO_EXTENSION);
 $codeexts = array("cpp","css","diff","dtd","javascript","mysql","perl","php","python","ruby","sql","xml","java");
@@ -10,24 +11,20 @@ $docexts = array("pdf","ppt","pptx","xls","xlsx","pages");
 $movexts = array("mp4","m4v","f4v","webm","flv","ogv");
 $audexts = array("aac","m4a","f4a","ogg","oga","mp3");
 $finfo = finfo_open(FILEINFO_MIME);
-$type = finfo_file($finfo, $file);
+$type = mime_content_type($file);
+$typefull = finfo_file($finfo, $file);
 if(isset($display))
 {
 	if($display){
 		
-	header("Content-Type: $type");
-	//header("Content-Disposition: attachment; filename='$file'");
-	header('Content-Length: ' . filesize($file));
-	ob_clean();
-	flush();
-	readfile($file);
+	header("Location: http://files.yasyf.com/direct/$fileraw");
 	exit;
-	}
+		}
 	}
 	
 }
 else {
-	$file = "Yasyf Mohamedali's Public Files";
+		$file = "Yasyf Mohamedali's Public Files";
 		header("Expires: Mon, 26 Jul 1990 05:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -83,13 +80,19 @@ else {
 <!-- 3. skin -->
 <link rel="stylesheet" type="text/css"
    href="http://releases.flowplayer.org/5.1.1/skin/functional.css" />
+<!-- global options -->
+<script>
+flowplayer.conf = {
+   engine: "flash"
+};
+</script>
 
 <?php
 if($file == "Yasyf Mohamedali's Public Files")
 {
 	$allfiles = scandir(dirname(__FILE__));
 	$list = "";
-	$sysfiles = array("-i",".","..",".gitignore",".htaccess","cloudapp.php","static",".git","favicon.ico");
+	$sysfiles = array("-i",".","..",".gitignore",".htaccess","cloudapp.php","static",".git","favicon.ico","direct");
 foreach ($allfiles as $key => $value) {
 	if(array_search($value,$sysfiles) === false)
 	$list .= "<span><strong><a href='$value' target='_blank'>$value</a></strong></span><br />";
@@ -115,10 +118,10 @@ else if(getimagesize($file))
 <header id="header">
 <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
  <h2><?php echo $file; ?></h2>
- <a class="embed" href="<?php echo "$file?file=$file&display=true"; ?>">Direct Link</a>
+ <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
 </header>
  <section id="content">
-  <img alt="<?php echo $file; ?>" src="<?php echo "$file?file=$file&display=true"; ?>">
+  <img alt="<?php echo $file; ?>" src="<?php echo "direct/$file"; ?>">
 </section>
 <?php	
 }
@@ -128,59 +131,70 @@ else if (array_search($ext,$docexts) !== false) {
 		<header id="header">
 		<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 		 <h2><?php echo $file; ?></h2>
-		 <a class="embed" href="<?php echo "$file?file=$file&display=true"; ?>">Direct Link</a>
+		 <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
 		</header>
 		 <section id="content">
 		<center>
-		  <iframe src="http://docs.google.com/viewer?url=<?php echo urlencode("http://files.yasyf.com/$file?file=$file&display=true&ext=.$ext"); ?>&embedded=true" width="85%" height="800px" style="border: none;"></iframe>
+		  <iframe src="http://docs.google.com/viewer?url=<?php echo urlencode("http://files.yasyf.com/direct/$file"); ?>&embedded=true" width="85%" height="800px" style="border: none;"></iframe>
 		</center>
 		</section>
   <?php
 }
 else if (array_search($ext,$movexts) !== false) {
 	?>
-	 <body id="other">
-	
-					<div class="wrapper">
-					
-	<center><div class="flowplayer">
-						   <video src="<?php echo "$file?file=$file&display=true&ext=.$ext"; ?>"></video>
-						</div>   </center>
-	  <section id="content">
-	     <h2><?php echo $file; ?></h2>
-	
-	 <p>
-	      <a href="<?php echo "$file?file=$file&display=true"; ?>">View</a>
-
-	      <small>or <strong>opt</strong>/<strong>alt click</strong> to download</small>
-	    </p>
-	  </section>
-	 <footer id="footer">
-	      <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
-	    </footer>
-	</div>
-	
+	<body id="image">
+			<header id="header">
+			<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
+			 <h2><?php echo $file; ?></h2>
+			 <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
+			</header>
+			 <section id="content">
+			<center>
+			  <div class="flowplayer"><video src="<?php echo "direct/$file"; ?>"  type="<?php echo $type; ?>">
+			<div class="wrapper">
+			  <section id="content">
+			   <h2><?php echo $file; ?></h2>
+			    <p>
+			      <a href="<?php echo "direct/$file"; ?>">View</a>
+			      <small>or <strong>opt</strong>/<strong>alt click</strong> to download</small>
+			    </p>
+			  </section>
+			 <footer id="footer">
+			      <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
+			    </footer>
+			</div>
+			</video></div> 
+			</center>
+			</section>
+			 	
 <?php
 }
 else if (array_search($ext,$audexts) !== false) {
 	?>
-	 <body id="other">
+	<body id="image">
+				<header id="header">
+				<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
+				 <h2><?php echo $file; ?></h2>
+				 <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
+				</header>
+				 <section id="content">
+				<center>
+				  <audio src="<?php echo "direct/$file"; ?>" controls="controls" type="<?php echo $type; ?>">
 				<div class="wrapper">
-				<center><audio src="<?php echo "$file?file=$file&display=true&ext=.$ext"; ?>" controls="controls" type="<?php echo $type; ?>"></audio></center>
-
-		  <section id="content">
-		     <h2><?php echo $file; ?></h2>
-		 <p>
-		      <a href="<?php echo "$file?file=$file&display=true"; ?>">View</a>
-
-		      <small>or <strong>opt</strong>/<strong>alt click</strong> to download</small>
-		    </p>
-		  </section>
-		 <footer id="footer">
-		      <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
-		    </footer>
-		</div>
-		
+							  <section id="content">
+							   <h2><?php echo $file; ?></h2>
+							    <p>
+							      <a href="<?php echo "direct/$file"; ?>">View</a>
+							      <small>or <strong>opt</strong>/<strong>alt click</strong> to download</small>
+							    </p>
+							  </section>
+							 <footer id="footer">
+							      <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
+							    </footer>
+							</div>
+				</audio> 
+				</center>
+				</section>
 
 
 	<?php
@@ -198,7 +212,7 @@ else if (substr($type, 0, 4) == 'text') {
 					<header id="header">
 					<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 					 <h2><?php echo $file; ?></h2>
-					 <a class="embed" href="<?php echo "$file?file=$file&display=true"; ?>">Direct Link</a>
+					 <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
 					</header>
 					<section class="monsoon" id="content">
 					<div class="highlight"><pre><code><?php echo $content; ?></code></pre></div>
@@ -211,7 +225,7 @@ else if (substr($type, 0, 4) == 'text') {
 			<header id="header">
 			<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 			 <h2><?php echo $file; ?></h2>
-			<a class="embed" href="<?php echo "$file?file=$file&display=true"; ?>">Direct Link</a>
+			<a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
 			</header>
 			<section class="monsoon" id="content">
 			<pre><code><?php echo $content; ?></code></pre>
@@ -240,7 +254,7 @@ else {
      <h2><?php echo $file; ?></h2>
 
     <p>
-      <a href="<?php echo "$file?file=$file&display=true"; ?>">View</a>
+      <a href="<?php echo "direct/$file"; ?>">View</a>
 
       <small>or <strong>opt</strong>/<strong>alt click</strong> to download</small>
     </p>
