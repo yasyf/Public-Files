@@ -6,6 +6,9 @@ $file = rawurldecode($file);
 $ext = pathinfo($file, PATHINFO_EXTENSION);
 $codeexts = array("cpp","css","diff","dtd","javascript","mysql","perl","php","python","ruby","sql","xml","java");
 $archiveexts = array("zip","tar","gz","7z","rar","sit","sitx","tgz","bz2","tbz");
+$docexts = array("pdf","ppt","pptx","xls","xlsx","pages");
+$movexts = array("mp4","m4v","f4v","webm","flv","ogv");
+$audexts = array("aac","m4a","f4a","ogg","oga","mp3");
 $finfo = finfo_open(FILEINFO_MIME);
 $type = finfo_file($finfo, $file);
 if(isset($display))
@@ -13,7 +16,7 @@ if(isset($display))
 	if($display){
 		
 	header("Content-Type: $type");
-	header("Content-Disposition: attachment; filename='$file'");
+	//header("Content-Disposition: attachment; filename='$file'");
 	header('Content-Length: ' . filesize($file));
 	ob_clean();
 	flush();
@@ -69,8 +72,17 @@ else {
     <!--[if lt IE 9]>
     <script src="/static/javascripts/vendor/selectivizr-1.0.2.min.js"></script>
     <![endif]-->
-
-  
+  <!-- 1. jquery library -->
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js">
+</script>
+ 
+<!-- 2. flowplayer -->
+<script src="http://releases.flowplayer.org/5.1.1/flowplayer.min.js"></script>
+ 
+<!-- 3. skin -->
+<link rel="stylesheet" type="text/css"
+   href="http://releases.flowplayer.org/5.1.1/skin/functional.css" />
 
 <?php
 if($file == "Yasyf Mohamedali's Public Files")
@@ -103,16 +115,79 @@ else if(getimagesize($file))
 <header id="header">
 <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
  <h2><?php echo $file; ?></h2>
- <a class="embed" href="<?php echo "?file=$file&display=true"; ?>">Direct Link</a>
+ <a class="embed" href="<?php echo "$file?file=$file&display=true"; ?>">Direct Link</a>
 </header>
  <section id="content">
-  <img alt="<?php echo $file; ?>" src="<?php echo "?file=$file&display=true"; ?>">
+  <img alt="<?php echo $file; ?>" src="<?php echo "$file?file=$file&display=true"; ?>">
 </section>
 <?php	
 }
+else if (array_search($ext,$docexts) !== false) {
+	?>
+	<body id="image">
+		<header id="header">
+		<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
+		 <h2><?php echo $file; ?></h2>
+		 <a class="embed" href="<?php echo "$file?file=$file&display=true"; ?>">Direct Link</a>
+		</header>
+		 <section id="content">
+		<center>
+		  <iframe src="http://docs.google.com/viewer?url=<?php echo urlencode("http://files.yasyf.com/$file?file=$file&display=true&ext=.$ext"); ?>&embedded=true" width="85%" height="800px" style="border: none;"></iframe>
+		</center>
+		</section>
+  <?php
+}
+else if (array_search($ext,$movexts) !== false) {
+	?>
+	 <body id="other">
+	
+					<div class="wrapper">
+					
+	<center><div class="flowplayer">
+						   <video src="<?php echo "$file?file=$file&display=true&ext=.$ext"; ?>"></video>
+						</div>   </center>
+	  <section id="content">
+	     <h2><?php echo $file; ?></h2>
+	
+	 <p>
+	      <a href="<?php echo "$file?file=$file&display=true"; ?>">View</a>
+
+	      <small>or <strong>opt</strong>/<strong>alt click</strong> to download</small>
+	    </p>
+	  </section>
+	 <footer id="footer">
+	      <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
+	    </footer>
+	</div>
+	
+<?php
+}
+else if (array_search($ext,$audexts) !== false) {
+	?>
+	 <body id="other">
+				<div class="wrapper">
+				<center><audio src="<?php echo "$file?file=$file&display=true&ext=.$ext"; ?>" controls="controls" type="<?php echo $type; ?>"></audio></center>
+
+		  <section id="content">
+		     <h2><?php echo $file; ?></h2>
+		 <p>
+		      <a href="<?php echo "$file?file=$file&display=true"; ?>">View</a>
+
+		      <small>or <strong>opt</strong>/<strong>alt click</strong> to download</small>
+		    </p>
+		  </section>
+		 <footer id="footer">
+		      <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
+		    </footer>
+		</div>
+		
+
+
+	<?php
+}
 else if (substr($type, 0, 4) == 'text') {
 	$content = file_get_contents($file);
-	if(array_search($ext,$codeexts)){
+	if(array_search($ext,$codeexts)  !== false){
 		require_once 'Text/Highlighter.php';
 		$highlighter =& Text_Highlighter::factory("$ext");
 		$highlighter->setRenderer($renderer);
@@ -123,7 +198,7 @@ else if (substr($type, 0, 4) == 'text') {
 					<header id="header">
 					<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 					 <h2><?php echo $file; ?></h2>
-					 <a class="embed" href="<?php echo "?file=$file&display=true"; ?>">Direct Link</a>
+					 <a class="embed" href="<?php echo "$file?file=$file&display=true"; ?>">Direct Link</a>
 					</header>
 					<section class="monsoon" id="content">
 					<div class="highlight"><pre><code><?php echo $content; ?></code></pre></div>
@@ -136,7 +211,7 @@ else if (substr($type, 0, 4) == 'text') {
 			<header id="header">
 			<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 			 <h2><?php echo $file; ?></h2>
-			<a class="embed" href="<?php echo "?file=$file&display=true"; ?>">Direct Link</a>
+			<a class="embed" href="<?php echo "$file?file=$file&display=true"; ?>">Direct Link</a>
 			</header>
 			<section class="monsoon" id="content">
 			<pre><code><?php echo $content; ?></code></pre>
@@ -151,7 +226,7 @@ else{
 <div class="wrapper">
   <section id="content">
 <?php
-if(array_search($ext,$archiveexts)){
+if(array_search($ext,$archiveexts) !== false){
 	?>
 	<figure class="archive"></figure>
 	<?php
@@ -165,7 +240,7 @@ else {
      <h2><?php echo $file; ?></h2>
 
     <p>
-      <a href="<?php echo "?file=$file&display=true"; ?>">View</a>
+      <a href="<?php echo "$file?file=$file&display=true"; ?>">View</a>
 
       <small>or <strong>opt</strong>/<strong>alt click</strong> to download</small>
     </p>
