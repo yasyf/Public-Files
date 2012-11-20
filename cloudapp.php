@@ -21,13 +21,18 @@ if(isset($display))
 	exit;
 		}
 	}
-	
+
+header("Expires: ".gmdate("D, d M Y H:i:s", time() + 2000000) . " GMT");
+header("Pragma: cache");
+header('Cache-Control: public');
+header("Cache-Control: max-age=2000000");
+
 }
 else {
 		$file = "Yasyf Mohamedali's Public Files";
-		header("Expires: Mon, 26 Jul 1990 05:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); 
+		header("Cache-Control: no-store, no-cache, must-revalidate"); 
 		header("Cache-Control: post-check=0, pre-check=0", false);
 		header("Pragma: no-cache");
 }
@@ -95,7 +100,7 @@ if($file == "Yasyf Mohamedali's Public Files")
 	$sysfiles = array("-i",".","..",".gitignore",".htaccess","cloudapp.php","static",".git","favicon.ico","direct");
 foreach ($allfiles as $key => $value) {
 	if(array_search($value,$sysfiles) === false)
-	$list .= "<span><strong><a href='$value' target='_blank'>$value</a></strong></span><br />";
+	$list .= "<span><strong><a href='$value' target='_blank'>$value</a></strong></span><br /><br />";
 }
 	?>
 	<body id="other">
@@ -109,7 +114,7 @@ foreach ($allfiles as $key => $value) {
 	      <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 	    </footer>
 	</div>
-	<center><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>
+	<center><br /><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>
 	<?php
 }
 else if(getimagesize($file))
@@ -123,7 +128,7 @@ else if(getimagesize($file))
 </header>
  <section id="content">
   <img alt="<?php echo $file; ?>" src="<?php echo "direct/$file"; ?>">
-<br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
+<br /><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
 </section>
 <?php	
 }
@@ -138,7 +143,7 @@ else if (array_search($ext,$docexts) !== false) {
 		 <section id="content">
 		<center>
 		  <iframe src="http://docs.google.com/viewer?url=<?php echo rawurlencode("http://files.yasyf.com/direct/$file"); ?>&embedded=true" width="85%" height="800px" style="border: none;"></iframe>
-		<br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
+		<br /><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
 		</center>
 		</section>
   <?php
@@ -167,7 +172,7 @@ else if (array_search($ext,$movexts) !== false) {
 			    </footer>
 			</div>
 			</video></div> 
-			<br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
+			<br /><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
 			</center>
 			</section>
 			 	
@@ -197,7 +202,7 @@ else if (array_search($ext,$audexts) !== false) {
 							    </footer>
 							</div>
 				</audio> 
-				<br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
+				<br /><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div>
 				</center>
 				</section>
 
@@ -221,7 +226,7 @@ else if (substr($type, 0, 4) == 'text') {
 					</header>
 					<section class="monsoon" id="content">
 					<div class="highlight"><pre><code><?php echo $content; ?></code></pre></div>
-<center><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>					</section>
+<center><br /><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>					</section>
  		<?php
 	}
 	else {
@@ -234,7 +239,7 @@ else if (substr($type, 0, 4) == 'text') {
 			</header>
 			<section class="monsoon" id="content">
 			<pre><code><?php echo $content; ?></code></pre>
-<center><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>			</section>
+<center><br /><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>			</section>
  			
  			<?php
 	}
@@ -268,7 +273,7 @@ else {
       <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
     </footer>
 </div>
-<center><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>
+<center><br /><br /><div><a rel="me" href="http://www.yasyf.com/" target="_new"><img src="http://cache.yasyf.com/images/logo_ym.png" width="100" height="100"  alt="Designed By Yasyf Mohamedali"  style="border: None 0 transparent;" /></a></div></center>
 <?php	
 }
 	?>
