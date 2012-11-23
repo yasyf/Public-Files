@@ -83,28 +83,36 @@
   -webkit-animation-duration: .2s;
   -webkit-animation-name: embedSlideIn;
   -webkit-animation-timing-function: easeIn;
-  background: url("../images/embed/image/embed.png") no-repeat;
-  display: block;
+	background: url("../images/embed/image/embed.png") no-repeat;
+	  display: block;
+	  height: 24px;
+	  line-height: 24px;
+  padding: 0 0 0 25px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .75);
+
   -webkit-font-smoothing: antialiased;
   font-size: 11px;
   font-weight: bold;
   height: 24px;
   line-height: 24px;
-  padding: 0 0 0 25px;
   position: absolute;
   top: 9px;
   right: 10px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, .75);
 }
 
+
 #image #header a:link.embed,
-#image #header a:visited.embed {
+#image #header a:visited.embed,
+a:link.embeda,
+a:visited.embeda {
   color: #fff;
   text-decoration: none;
 }
 
 #image #header a:hover.embed,
-#image #header a:active.embed {
+#image #header a:active.embed,
+a:hover.embeda,
+a:active.embeda {
   background-position: 0 -24px;
   color: #33a4f4;
 }

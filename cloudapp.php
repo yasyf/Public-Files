@@ -13,6 +13,9 @@ $audexts = array("aac","m4a","f4a","ogg","oga","mp3");
 $finfo = finfo_open(FILEINFO_MIME);
 $type = mime_content_type($file);
 $typefull = finfo_file($finfo, $file);
+$url = (!empty($_SERVER['HTTPS'])) ? "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'] : "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+
+
 if(isset($display))
 {
 	if($display){
@@ -61,6 +64,7 @@ else {
     <link href="/static/stylesheets/text.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/static/stylesheets/syntax.css" media="screen" rel="stylesheet" type="text/css" />
 
+
     <!--[if IE]>
     <link href="/stylesheets/ie.css" media="screen" rel="stylesheet" type="text/css" />
     <![endif]-->
@@ -91,7 +95,8 @@ flowplayer.conf = {
    engine: "flash"
 };
 </script>
-
+<script type="text/javascript" src="http://cache.yasyf.com/js/jquery.lightbox_me.js"></script>
+</head>
 <?php
 if($file == "Yasyf Mohamedali's Public Files")
 {
@@ -124,7 +129,7 @@ else if(getimagesize($file))
 <header id="header">
 <h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
  <h2><?php echo $file; ?></h2>
- <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
+ <span class="embed"><a class="embeda" id="qr" href="#">QR Code</a> | <a class="embeda" href="<?php echo "direct/$file"; ?>">Direct Link</a></span>
 </header>
  <section id="content">
   <img alt="<?php echo $file; ?>" src="<?php echo "direct/$file"; ?>">
@@ -138,7 +143,7 @@ else if (array_search($ext,$docexts) !== false) {
 		<header id="header">
 		<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 		 <h2><?php echo $file; ?></h2>
-		 <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
+		 <span class="embed"><a class="embeda" id="qr" href="#">QR Code</a> | <a class="embeda" href="<?php echo "direct/$file"; ?>">Direct Link</a></span>
 		</header>
 		 <section id="content">
 		<center>
@@ -154,7 +159,7 @@ else if (array_search($ext,$movexts) !== false) {
 			<header id="header">
 			<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 			 <h2><?php echo $file; ?></h2>
-			 <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
+			 <span class="embed"><a class="embeda" id="qr" href="#">QR Code</a> | <a class="embeda" href="<?php echo "direct/$file"; ?>">Direct Link</a></span>
 			</header>
 			 <section id="content">
 			<center>
@@ -184,7 +189,7 @@ else if (array_search($ext,$audexts) !== false) {
 				<header id="header">
 				<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 				 <h2><?php echo $file; ?></h2>
-				 <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
+<span class="embed"><a class="embeda" id="qr" href="#">QR Code</a> | <a class="embeda" href="<?php echo "direct/$file"; ?>">Direct Link</a></span>
 				</header>
 				 <section id="content">
 				<center>
@@ -222,7 +227,7 @@ else if (substr($type, 0, 4) == 'text') {
 					<header id="header">
 					<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 					 <h2><?php echo $file; ?></h2>
-					 <a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
+	<span class="embed"><a class="embeda" id="qr" href="#">QR Code</a> | <a class="embeda" href="<?php echo "direct/$file"; ?>">Direct Link</a></span>
 					</header>
 					<section class="monsoon" id="content">
 					<div class="highlight"><pre><code><?php echo $content; ?></code></pre></div>
@@ -235,7 +240,7 @@ else if (substr($type, 0, 4) == 'text') {
 			<header id="header">
 			<h1><a href="http://files.yasyf.com">Yasyf's Public Files</a></h1>
 			 <h2><?php echo $file; ?></h2>
-			<a class="embed" href="<?php echo "direct/$file"; ?>">Direct Link</a>
+<span class="embed"><a class="embeda" id="qr" href="#">QR Code</a> | <a class="embeda" href="<?php echo "direct/$file"; ?>">Direct Link</a></span>
 			</header>
 			<section class="monsoon" id="content">
 			<pre><code><?php echo $content; ?></code></pre>
@@ -257,7 +262,7 @@ if(array_search($ext,$archiveexts) !== false){
 }
 else {
 	?>
-	    <figure class="unknown"></figure>
+	    <figure class="unknown" style="background:url('/static/qr.php?url=<?php echo $url; ?>') no-repeat center center #f7f8f8;"></figure>
 	<?php
 }
 ?>
@@ -277,6 +282,15 @@ else {
 <?php	
 }
 	?>
-
+	<div id="qrdiv" style="display:none">
+		<img src="/static/qr.php?url=<?php echo $url; ?>&size=large" />
+		</div>
+		<script>
+	$("#qr").click(function() {
+	  $("#qrdiv").lightbox_me({
+		        centered: true
+		        });
+	})
+	</script>
 </body>
 </html>
