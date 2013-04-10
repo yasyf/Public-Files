@@ -257,7 +257,7 @@ else{
 <?php
 if(array_search($ext,$archiveexts) !== false){
 	?>
-	<figure class="archive"></figure>
+	<figure class="unknown" style="background:url('/static/qr.php?url=<?php echo $url; ?>') no-repeat center center #f7f8f8;"></figure>
 	<?php
 }
 else {
